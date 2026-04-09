@@ -4,6 +4,10 @@
   user-select: none;
 }
 
+:root {
+  --height: calc(100vh - calc(100vh - 100%));
+}
+
 body {
   margin: 0px;
   overflow: hidden;
@@ -17,7 +21,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: calc(100vh - calc(100vh - 100%));
+  height: var(--height);
   position: fixed;
   left: 0px;
   top: 0px;
@@ -26,7 +30,7 @@ body {
 #app {
   display: none;
   width: 100vw;
-  height: 100%;
+  height: var(--height);
   background-color: #222;
 }
 
@@ -36,6 +40,17 @@ body {
 
 .editor {
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas {
+  max-width: 90%;
+  max-height: 80vh;
+  background-image: url(./assets/images/editor/transparent.svg);
+  background-position: left top;
+  background-size: 20px 20px;
 }
 
 .options {

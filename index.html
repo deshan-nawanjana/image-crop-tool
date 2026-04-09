@@ -18,9 +18,12 @@
 </head>
 
 <body>
+  <!-- app root -->
   <div id="app" :data-ready="true">
     <!-- editor canvases -->
-    <div class="editor"></div>
+    <div class="editor">
+      <canvas ref="canvas" width="600" height="450"></canvas>
+    </div>
     <!-- resize options -->
     <div class="options"></div>
   </div>
