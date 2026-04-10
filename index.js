@@ -25,6 +25,9 @@ new Vue({
     // select and context
     select: null,
     selectContext: null,
+    // output and context
+    output: null,
+    outputContext: null,
     // crop area
     crop: { x: 0, y: 0, width: 600, height: 450 },
     // dragging state
@@ -57,7 +60,7 @@ new Vue({
       image.src = URL.createObjectURL(file)
     },
     // method to draw selection
-    setSelection() {
+    setSelection(event) {
       // validate crop area values
       this.crop.x = toLimit(this.crop.x, 0, this.canvas.width)
       this.crop.y = toLimit(this.crop.y, 0, this.canvas.height)
@@ -70,6 +73,21 @@ new Vue({
       this.selectContext.lineWidth = 2
       // draw selection
       this.selectContext.strokeRect(this.crop.x, this.crop.y, this.crop.width, this.crop.height)
+      // update preview on blur events
+      if (event && event.type === "blur") { this.setPreview() }
+    },
+    // method to show preview
+    setPreview() {
+      // clear dragging state
+      this.dragging = false
+      // resize output canvas
+      this.output.width = this.crop.width
+      this.output.height = this.crop.height
+      // get copy coordinates
+      const from = [this.crop.x, this.crop.y, this.crop.width, this.crop.height]
+      const to = [0, 0, this.output.width, this.output.height]
+      // draw cropped area on output
+      this.outputContext.drawImage(this.canvas, ...from, ...to)
     }
   },
   // mounted listener
@@ -103,6 +121,9 @@ new Vue({
     // store select and context
     this.select = this.$refs.select
     this.selectContext = this.select.getContext("2d")
+    // store output and context
+    this.output = this.$refs.output
+    this.outputContext = this.output.getContext("2d")
     // selection start
     this.select.addEventListener("mousedown", event => {
       // set as dragging
@@ -127,8 +148,8 @@ new Vue({
       this.setSelection()
     })
     // stop dragging
-    this.select.addEventListener("mouseleave", () => this.dragging = false)
-    this.select.addEventListener("mouseout", () => this.dragging = false)
-    this.select.addEventListener("mouseup", () => this.dragging = false)
+    this.select.addEventListener("mouseleave", this.setPreview)
+    this.select.addEventListener("mouseout", this.setPreview)
+    this.select.addEventListener("mouseup", this.setPreview)
   }
 })

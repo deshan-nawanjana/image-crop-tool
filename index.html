@@ -34,31 +34,36 @@
     </div>
     <!-- resize options -->
     <div class="options">
+      <!-- crop options -->
       <div class="option-title">
-        Cropped Area
+        Crop
       </div>
-      <fieldset class="option-set" @input="setSelection">
+      <fieldset class="option-set">
         <div class="option-row">
           <div class="option">
             <label for="crop-x">X</label>
-            <input type="text" id="crop-x" v-model="crop.x">
+            <input type="number" id="crop-x" @blur="setSelection" v-model="crop.x">
           </div>
           <div class="option">
             <label for="crop-y">Y</label>
-            <input type="text" id="crop-y" v-model="crop.y">
+            <input type="number" id="crop-y" @blur="setSelection" v-model="crop.y">
           </div>
         </div>
         <div class="option-row">
           <div class="option">
             <label for="crop-w">Width</label>
-            <input type="text" id="crop-w" v-model="crop.width">
+            <input type="number" id="crop-w" @blur="setSelection" v-model="crop.width">
           </div>
           <div class="option">
             <label for="crop-h">Height</label>
-            <input type="text" id="crop-h" v-model="crop.height">
+            <input type="number" id="crop-h" @blur="setSelection" v-model="crop.height">
           </div>
         </div>
       </fieldset>
+      <!-- output preview -->
+      <div class="option-out">
+        <canvas ref="output" width="600" height="450" id="output"></canvas>
+      </div>
     </div>
   </div>
 </body>
