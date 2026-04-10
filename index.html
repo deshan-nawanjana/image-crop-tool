@@ -8,7 +8,7 @@
   <!-- avoid indexing -->
   <meta name="robots" content="noindex, nofollow">
   <!-- redirection -->
-  <meta http-equiv="refresh" content="0; URL=https://deshan.lk/apps/image-crop-tool">
+  <!-- <meta http-equiv="refresh" content="0; URL=https://deshan.lk/apps/image-crop-tool"> -->
   <!-- favicon -->
   <link rel="shortcut icon" href="./assets/images/logo.png" type="image/png">
   <!-- fonts -->
@@ -36,7 +36,7 @@
       <canvas ref="canvas" width="600" height="450" id="canvas"></canvas>
       <canvas ref="select" width="600" height="450" id="select"></canvas>
     </div>
-    <!-- resize options -->
+    <!-- options -->
     <div class="options">
       <!-- crop options -->
       <div class="option-title">
@@ -84,10 +84,15 @@
           </div>
         </div>
       </fieldset>
-      <button class="download" @click="download" :disabled="loading">
+      <!-- download button -->
+      <button class="button" @click="download" :disabled="loading">
         {{loading ? "Please wait..." : "Download"}}
       </button>
     </div>
+    <!-- open button -->
+    <button class="button open" @click="openFile">
+      Open an Image
+    </button>
   </div>
 </body>
 

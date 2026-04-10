@@ -42,10 +42,17 @@ new Vue({
     // loading state
     loading: false,
     // file name
-    fileName: "Image"
+    fileName: "Image",
+    // file input
+    input: null
   },
   // app methods
   methods: {
+    // method to open file
+    openFile() {
+      // trigger file input
+      this.input.click()
+    },
     // method to load image
     loadImage(file) {
       // create image
@@ -246,11 +253,11 @@ new Vue({
     this.select.addEventListener("mouseout", this.setPreview)
     this.select.addEventListener("mouseup", this.setPreview)
     // create input element
-    const input = document.createElement("input")
+    this.input = document.createElement("input")
     // configure input element
-    input.type = "file"
-    input.accept = "image/*"
-    input.multiple = false
+    this.input.type = "file"
+    this.input.accept = "image/*"
+    this.input.multiple = false
     // key down listener
     window.addEventListener("keydown", event => {
       // check for open shortcut command
@@ -258,7 +265,7 @@ new Vue({
         // prevent default behavior
         event.preventDefault()
         // trigger input prompt
-        input.click()
+        this.input.click()
       }
       // check for escape command
       if (event.key === "Escape") {
@@ -274,11 +281,11 @@ new Vue({
       }
     })
     // input select listener
-    input.addEventListener("input", () => {
+    this.input.addEventListener("input", () => {
       // load image if available
-      if (input.files.length) { this.loadImage(input.files[0]) }
+      if (this.input.files.length) { this.loadImage(this.input.files[0]) }
       // clear input value
-      input.value = ""
+      this.input.value = ""
     })
   }
 })

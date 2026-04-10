@@ -45,16 +45,17 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
+  padding-bottom: 40px;
 }
 
 #canvas {
   max-width: 90%;
-  max-height: 80vh;
+  max-height: calc(100vh - 150px);
 }
 
 #select {
   max-width: 90%;
-  max-height: 80vh;
+  max-height: calc(100vh - 150px);
   position: absolute;
   cursor: crosshair;
 }
@@ -138,7 +139,7 @@ body {
   padding-bottom: 10px;
 }
 
-.download {
+.button {
   height: 35px;
   margin: 10px 14px;
   background-color: #0066cc;
@@ -148,12 +149,22 @@ body {
   border: 0px;
 }
 
-.download:not(:disabled):active {
+.button:not(:disabled):active {
   background-color: #024d98;
 }
 
-.download:disabled {
+.button:disabled {
   filter: grayscale(100%);
   cursor: default;
   opacity: 0.85;
+}
+
+.open {
+  z-index: 10;
+  position: fixed;
+  padding: 0px 15px;
+  left: calc(50vw - 150px - 75px);
+  bottom: 18px;
+  width: 150px;
+  margin: 0px;
 }
