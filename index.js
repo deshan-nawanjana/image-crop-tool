@@ -3,8 +3,15 @@ const ignoreEvents = ["dragenter", "dragover", "dragleave", "drop"]
 // event types to accept
 const acceptEvents = ["drop", "paste"]
 
-const toLimit = (value, min, max) => {
-  return Math.min(max, Math.max(min, parseInt(value) || 0))
+// helper to get values into a valid range
+const toLimit = (value, min, max) => Math.min(max, Math.max(min, parseInt(value) || 0))
+
+// helper to get cursor point by client rect
+const toPoint = (canvas, value, node) => {
+  // get canvas client rect
+  const rect = canvas.getBoundingClientRect()
+  // return actual value
+  return value * (canvas[node] / rect[node])
 }
 
 new Vue({
@@ -101,8 +108,8 @@ new Vue({
       // set as dragging
       this.dragging = true
       // set crop x and y
-      this.crop.x = event.layerX
-      this.crop.y = event.layerY
+      this.crop.x = toPoint(this.select, event.layerX, "width")
+      this.crop.y = toPoint(this.select, event.layerY, "height")
       // reset crop size
       this.crop.width = 0
       this.crop.height = 0
@@ -114,8 +121,8 @@ new Vue({
       // return if not dragging
       if (!this.dragging) { return }
       // update crop size
-      this.crop.width = event.layerX - this.crop.x
-      this.crop.height = event.layerY - this.crop.y
+      this.crop.width = toPoint(this.select, event.layerX, "width") - this.crop.x
+      this.crop.height = toPoint(this.select, event.layerY, "height") - this.crop.y
       // update selection
       this.setSelection()
     })
