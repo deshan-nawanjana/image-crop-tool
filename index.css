@@ -48,14 +48,13 @@ body {
   padding-bottom: 40px;
 }
 
-#canvas {
+#canvas,
+#select {
   max-width: 90%;
   max-height: calc(100vh - 150px);
 }
 
 #select {
-  max-width: 90%;
-  max-height: calc(100vh - 150px);
   position: absolute;
   cursor: crosshair;
 }
@@ -167,4 +166,60 @@ body {
   bottom: 18px;
   width: 150px;
   margin: 0px;
+}
+
+@media (max-width: 630px) {
+  #app {
+    flex-direction: column;
+  }
+
+  .editor {
+    height: 350px;
+    flex-shrink: 0;
+    padding-bottom: 0px;
+    flex-grow: 0;
+  }
+
+  #canvas,
+  #select {
+    max-width: 90%;
+    max-height: 280px;
+  }
+
+  .options {
+    width: 100vw;
+    flex-grow: 1;
+  }
+
+  .preview {
+    display: none;
+  }
+
+  .option {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+  }
+
+  .option-row {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .option label {
+    width: 40px;
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 0px;
+  }
+
+  .option input {
+    flex-grow: 1;
+  }
+
+  .open {
+    left: calc(50vw - 75px);
+    top: 332px;
+  }
 }
