@@ -59,14 +59,14 @@ body {
   cursor: crosshair;
 }
 
-#output {
+#preview {
   max-width: 280px;
   max-height: 160px;
   position: absolute;
 }
 
 #canvas,
-#output {
+#preview {
   background-image: url(./assets/images/editor/transparent.svg);
   background-position: left top;
   background-size: 20px 20px;
@@ -129,10 +129,25 @@ body {
   margin: 0;
 }
 
-.option-out {
+.preview {
   width: 100%;
   height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 10px;
+}
+
+.download {
+  height: 35px;
+  margin: 10px 14px;
+  background-color: #0066cc;
+  transition: background-color 0.15s;
+  border-radius: 5px;
+  color: #fff;
+  border: 0px;
+}
+
+.download:active {
+  background-color: #024d98;
 }

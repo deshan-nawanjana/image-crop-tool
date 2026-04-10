@@ -27,11 +27,16 @@ new Vue({
     // select and context
     select: null,
     selectContext: null,
-    // output and context
+    // preview and context
+    preview: null,
+    previewContext: null,
+    // preview and context
     output: null,
     outputContext: null,
     // crop area
     crop: { x: 0, y: 0, width: 600, height: 450 },
+    // resize dimensions
+    resize: { width: 600, height: 450 },
     // dragging state
     dragging: false
   },
@@ -70,6 +75,9 @@ new Vue({
       this.crop.y = toLimit(this.crop.y, 0, this.canvas.height)
       this.crop.width = toLimit(this.crop.width, 0, this.canvas.width - this.crop.x)
       this.crop.height = toLimit(this.crop.height, 0, this.canvas.height - this.crop.y)
+      // update resize dimensions
+      this.resize.width = this.crop.width
+      this.resize.height = this.crop.height
       // clear selection
       this.selectContext.clearRect(0, 0, this.select.width, this.select.height)
       // configure select style
@@ -93,14 +101,29 @@ new Vue({
     setPreview() {
       // clear dragging state
       this.dragging = false
-      // resize output canvas
-      this.output.width = this.crop.width
-      this.output.height = this.crop.height
+      // resize preview canvas
+      this.preview.width = this.crop.width
+      this.preview.height = this.crop.height
       // get copy coordinates
       const from = [this.crop.x, this.crop.y, this.crop.width, this.crop.height]
-      const to = [0, 0, this.output.width, this.output.height]
-      // draw cropped area on output
-      this.outputContext.drawImage(this.canvas, ...from, ...to)
+      const to = [0, 0, this.preview.width, this.preview.height]
+      // draw cropped area on preview
+      this.previewContext.drawImage(this.canvas, ...from, ...to)
+    },
+    // method to update resize values
+    setResize(node) {
+      // validate value into integer
+      const value = Math.min(10000, Math.max(1, parseInt(this.resize[node]) || this.crop[node]))
+      // set on current node
+      this.resize[node] = value
+      // switch by node
+      if (node === "width") {
+        // get height by cropped ratio
+        this.resize.height = parseInt(value * this.crop.height / this.crop.width)
+      } else {
+        // get width by cropped ratio
+        this.resize.width = parseInt(value * this.crop.width / this.crop.height)
+      }
     }
   },
   // mounted listener
@@ -134,8 +157,11 @@ new Vue({
     // store select and context
     this.select = this.$refs.select
     this.selectContext = this.select.getContext("2d")
-    // store output and context
-    this.output = this.$refs.output
+    // store preview and context
+    this.preview = this.$refs.preview
+    this.previewContext = this.preview.getContext("2d")
+    // create output and context
+    this.output = document.createElement("canvas")
     this.outputContext = this.output.getContext("2d")
     // selection start
     this.select.addEventListener("mousedown", event => {

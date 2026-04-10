@@ -60,10 +60,29 @@
           </div>
         </div>
       </fieldset>
-      <!-- output preview -->
-      <div class="option-out">
-        <canvas ref="output" width="600" height="450" id="output"></canvas>
+      <!-- preview canvas -->
+      <div class="preview">
+        <canvas ref="preview" width="600" height="450" id="preview"></canvas>
       </div>
+      <!-- resize options -->
+      <div class="option-title">
+        Resize
+      </div>
+      <fieldset class="option-set">
+        <div class="option-row">
+          <div class="option">
+            <label for="resize-w">Width</label>
+            <input type="number" id="resize-w" v-model="resize.width" @blur="setResize('width')">
+          </div>
+          <div class="option">
+            <label for="resize-h">Height</label>
+            <input type="number" id="resize-h" v-model="resize.height" @blur="setResize('height')">
+          </div>
+        </div>
+      </fieldset>
+      <button class="download">
+        Download
+      </button>
     </div>
   </div>
 </body>
