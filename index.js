@@ -51,10 +51,12 @@ new Vue({
         this.select.height = image.height
         // reset crop area
         this.crop = { x: 0, y: 0, width: image.width, height: image.height }
-        // reset selection
-        this.setSelection()
         // draw image on context
         this.canvasContext.drawImage(image, 0, 0)
+        // reset selection
+        this.setSelection()
+        // update preview
+        this.setPreview()
         // revoke object url
         URL.revokeObjectURL(image.src)
       })
@@ -162,5 +164,28 @@ new Vue({
     this.select.addEventListener("mouseleave", this.setPreview)
     this.select.addEventListener("mouseout", this.setPreview)
     this.select.addEventListener("mouseup", this.setPreview)
+    // create input element
+    const input = document.createElement("input")
+    // configure input element
+    input.type = "file"
+    input.accept = "image/*"
+    input.multiple = false
+    // key down listener
+    window.addEventListener("keydown", event => {
+      // check for open shortcut command
+      if (event.ctrlKey && event.key.toUpperCase() === "O") {
+        // prevent default behavior
+        event.preventDefault()
+        // trigger input prompt
+        input.click()
+      }
+    })
+    // input select listener
+    input.addEventListener("input", () => {
+      // load image if available
+      if (input.files.length) { this.loadImage(input.files[0]) }
+      // clear input value
+      input.value = ""
+    })
   }
 })
