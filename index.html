@@ -7,6 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- favicon -->
   <link rel="shortcut icon" href="./assets/images/logo.png" type="image/png">
+  <!-- fonts -->
+  <link rel="stylesheet" href="./assets/fonts/fonts.css">
+  <!-- preload : fonts -->
+  <link rel="preload" href="./assets/fonts/Inter/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <!-- preload : images -->
+  <link rel="preload" href="./assets/icons/spinner.svg" as="image" type="image/svg+xml">
+  <link rel="preload" href="./assets/images/editor/transparent.svg" as="image" type="image/svg+xml">
   <!-- style -->
   <link rel="stylesheet" href="./index.css">
   <!-- libraries -->
@@ -14,7 +21,7 @@
   <!-- script -->
   <script src="./index.js" type="module" defer></script>
   <!-- page title -->
-  <title>Croppy: Image Crop Tool</title>
+  <title>Image Crop Tool</title>
 </head>
 
 <body>
@@ -22,10 +29,37 @@
   <div id="app" :data-ready="true">
     <!-- editor canvases -->
     <div class="editor">
-      <canvas ref="canvas" width="600" height="450"></canvas>
+      <canvas ref="canvas" width="600" height="450" id="canvas"></canvas>
+      <canvas ref="select" width="600" height="450" id="select"></canvas>
     </div>
     <!-- resize options -->
-    <div class="options"></div>
+    <div class="options">
+      <div class="option-title">
+        Cropped Area
+      </div>
+      <fieldset class="option-set" @input="setSelection">
+        <div class="option-row">
+          <div class="option">
+            <label for="crop-x">X</label>
+            <input type="text" id="crop-x" v-model="crop.x">
+          </div>
+          <div class="option">
+            <label for="crop-y">Y</label>
+            <input type="text" id="crop-y" v-model="crop.y">
+          </div>
+        </div>
+        <div class="option-row">
+          <div class="option">
+            <label for="crop-w">Width</label>
+            <input type="text" id="crop-w" v-model="crop.width">
+          </div>
+          <div class="option">
+            <label for="crop-h">Height</label>
+            <input type="text" id="crop-h" v-model="crop.height">
+          </div>
+        </div>
+      </fieldset>
+    </div>
   </div>
 </body>
 
