@@ -2,6 +2,8 @@
 const ignoreEvents = ["dragenter", "dragover", "dragleave", "drop"]
 // event types to accept
 const acceptEvents = ["drop", "paste"]
+// event types to input
+const inputEvents = ["Enter", "ArrowUp", "ArrowDown"]
 
 // helper to get values into a valid range
 const toLimit = (value, min, max) => Math.min(max, Math.max(min, parseInt(value) || 0))
@@ -75,6 +77,15 @@ new Vue({
       this.selectContext.strokeRect(this.crop.x, this.crop.y, this.crop.width, this.crop.height)
       // update preview on blur events
       if (event && event.type === "blur") { this.setPreview() }
+    },
+    // method on key input
+    onInput(event) {
+      // return if not enter key
+      if (!inputEvents.includes(event.key)) { return }
+      // draw selection
+      this.setSelection()
+      // update preview
+      this.setPreview()
     },
     // method to show preview
     setPreview() {
