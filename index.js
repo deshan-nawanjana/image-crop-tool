@@ -37,12 +37,12 @@ new Vue({
     crop: { x: 0, y: 0, width: 600, height: 450 },
     // resize dimensions
     resize: { width: 600, height: 450 },
-    // dragging state
-    dragging: false,
+    // dragging values
+    dragging: null,
     // loading state
     loading: false,
     // file name
-    fileName: null
+    fileName: "Image"
   },
   // app methods
   methods: {
@@ -109,8 +109,8 @@ new Vue({
     },
     // method to show preview
     setPreview() {
-      // clear dragging state
-      this.dragging = false
+      // clear dragging values
+      this.dragging = null
       // resize preview canvas
       this.preview.width = this.crop.width
       this.preview.height = this.crop.height
@@ -213,24 +213,31 @@ new Vue({
     this.outputContext = this.output.getContext("2d")
     // selection start
     this.select.addEventListener("mousedown", event => {
-      // set as dragging
-      this.dragging = true
-      // set crop x and y
-      this.crop.x = toPoint(this.select, event.layerX, "width")
-      this.crop.y = toPoint(this.select, event.layerY, "height")
-      // reset crop size
-      this.crop.width = 0
-      this.crop.height = 0
-      // update selection
-      this.setSelection()
+      // set start values
+      this.dragging = [
+        toPoint(this.select, event.layerX, "width"),
+        toPoint(this.select, event.layerY, "height")
+      ]
     })
     // selection move
     this.select.addEventListener("mousemove", event => {
       // return if not dragging
       if (!this.dragging) { return }
+      // get end points
+      const end = [
+        toPoint(this.select, event.layerX, "width"),
+        toPoint(this.select, event.layerY, "height")
+      ]
+      // get boundary points
+      const ax = Math.min(this.dragging[0], end[0])
+      const ay = Math.min(this.dragging[1], end[1])
+      const bx = Math.max(this.dragging[0], end[0])
+      const by = Math.max(this.dragging[1], end[1])
       // update crop size
-      this.crop.width = toPoint(this.select, event.layerX, "width") - this.crop.x
-      this.crop.height = toPoint(this.select, event.layerY, "height") - this.crop.y
+      this.crop.x = ax
+      this.crop.y = ay
+      this.crop.width = (bx - ax)
+      this.crop.height = (by - ay)
       // update selection
       this.setSelection()
     })
