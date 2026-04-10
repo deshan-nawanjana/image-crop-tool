@@ -74,7 +74,7 @@ new Vue({
       this.selectContext.clearRect(0, 0, this.select.width, this.select.height)
       // configure select style
       this.selectContext.strokeStyle = "#4d79ff"
-      this.selectContext.lineWidth = 2
+      this.selectContext.lineWidth = 3
       // draw selection
       this.selectContext.strokeRect(this.crop.x, this.crop.y, this.crop.width, this.crop.height)
       // update preview on blur events
@@ -178,6 +178,18 @@ new Vue({
         event.preventDefault()
         // trigger input prompt
         input.click()
+      }
+      // check for escape command
+      if (event.key === "Escape") {
+        // reset cropping area
+        this.crop.x = 0
+        this.crop.y = 0
+        this.crop.width = this.canvas.width
+        this.crop.height = this.canvas.height
+        // draw selection
+        this.setSelection()
+        // update preview
+        this.setPreview()
       }
     })
     // input select listener
