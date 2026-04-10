@@ -38,7 +38,11 @@ new Vue({
     // resize dimensions
     resize: { width: 600, height: 450 },
     // dragging state
-    dragging: false
+    dragging: false,
+    // loading state
+    loading: false,
+    // file name
+    fileName: null
   },
   // app methods
   methods: {
@@ -67,6 +71,12 @@ new Vue({
       })
       // set blob url on image
       image.src = URL.createObjectURL(file)
+      // split file name
+      const parts = file.name.split(".")
+      // pop file extension
+      parts.pop()
+      // store file name
+      this.fileName = parts.join(".").replace(/ /g, "_")
     },
     // method to draw selection
     setSelection(event) {
@@ -124,6 +134,44 @@ new Vue({
         // get width by cropped ratio
         this.resize.width = parseInt(value * this.crop.width / this.crop.height)
       }
+    },
+    // method to download
+    download() {
+      // set as loading
+      this.loading = true
+      // ui update delay
+      setTimeout(() => {
+        // resize output canvas
+        this.output.width = this.resize.width
+        this.output.height = this.resize.height
+        // get copy coordinates
+        const from = [0, 0, this.crop.width, this.crop.height]
+        const to = [0, 0, this.resize.width, this.resize.height]
+        // draw resized image on output
+        this.outputContext.drawImage(this.preview, ...from, ...to)
+        // create blob from canvas
+        this.output.toBlob(blob => {
+          // create anchor element
+          const anchor = document.createElement("a")
+          // set object url from blob
+          anchor.href = URL.createObjectURL(blob)
+          // get file size
+          const fileSize = `${this.resize.width}x${this.resize.height}`
+          // configure anchor
+          anchor.download = `${this.fileName}_${fileSize}.png`
+          anchor.style.display = "none"
+          // append anchor on body
+          document.body.appendChild(anchor)
+          // trigger download
+          anchor.click()
+          // remove anchor
+          anchor.remove()
+          // revoke object url
+          setTimeout(() => URL.revokeObjectURL(anchor.href), 50)
+          // stop loading
+          this.loading = false
+        })
+      }, 100)
     }
   },
   // mounted listener

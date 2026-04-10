@@ -148,6 +148,12 @@ body {
   border: 0px;
 }
 
-.download:active {
+.download:not(:disabled):active {
   background-color: #024d98;
+}
+
+.download:disabled {
+  filter: grayscale(100%);
+  cursor: default;
+  opacity: 0.85;
 }

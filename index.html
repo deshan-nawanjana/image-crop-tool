@@ -72,16 +72,16 @@
         <div class="option-row">
           <div class="option">
             <label for="resize-w">Width</label>
-            <input type="number" id="resize-w" v-model="resize.width" @blur="setResize('width')">
+            <input type="number" id="resize-w" v-model="resize.width" @keyup="setResize('width')">
           </div>
           <div class="option">
             <label for="resize-h">Height</label>
-            <input type="number" id="resize-h" v-model="resize.height" @blur="setResize('height')">
+            <input type="number" id="resize-h" v-model="resize.height" @keyup="setResize('height')">
           </div>
         </div>
       </fieldset>
-      <button class="download">
-        Download
+      <button class="download" @click="download" :disabled="loading">
+        {{loading ? "Please wait..." : "Download"}}
       </button>
     </div>
   </div>
