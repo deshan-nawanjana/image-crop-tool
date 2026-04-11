@@ -5,10 +5,6 @@
   user-select: none;
 }
 
-:root {
-  --height: calc(100vh - calc(100vh - 100%));
-}
-
 body {
   margin: 0px;
   overflow: hidden;
@@ -22,7 +18,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: var(--height);
+  height: 100dvh;
   position: fixed;
   left: 0px;
   top: 0px;
@@ -31,7 +27,7 @@ body {
 #app {
   display: none;
   width: 100vw;
-  height: var(--height);
+  height: 100dvh;
   background-color: #222;
 }
 
@@ -51,7 +47,7 @@ body {
 #canvas,
 #select {
   max-width: 90%;
-  max-height: calc(100vh - 150px);
+  max-height: calc(100dvh - 150px);
 }
 
 #select {
