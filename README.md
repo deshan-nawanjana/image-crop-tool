@@ -2,7 +2,7 @@
 
 A lightweight web-based tool for cropping and resizing images with precision. It provides an intuitive interface to select specific areas, fine-tune dimensions, and preview changes in real time. Quickly export optimized images for seamless use in web, UI, and design workflows.
 
-Launch Now: [https://deshan.lk/apps/jwt-generator](https://deshan.lk/apps/jwt-generator)
+Launch Now: [https://deshan.lk/apps/image-crop-tool](https://deshan.lk/apps/image-crop-tool)
 
 ## Key Features
 
